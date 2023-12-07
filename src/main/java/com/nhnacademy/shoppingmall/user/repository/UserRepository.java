@@ -3,6 +3,7 @@ package com.nhnacademy.shoppingmall.user.repository;
 import com.nhnacademy.shoppingmall.user.domain.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -13,4 +14,10 @@ public interface UserRepository {
     int update(User user);
     int updateLatestLoginAtByUserId(String userId, LocalDateTime latestLoginAt);
     int countByUserId(String userId);
+
+    int userCount();
+    int adminCount();
+
+    List<User> getUserPageList(int offset, int pageSize);
+    List<User> getAdminPageList(int offset, int pageSize);
 }

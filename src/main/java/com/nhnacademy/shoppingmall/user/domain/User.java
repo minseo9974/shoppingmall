@@ -1,11 +1,12 @@
 package com.nhnacademy.shoppingmall.user.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class User {
-    public enum Auth{
-        ROLE_ADMIN,ROLE_USER
+public class User implements Serializable {
+    public enum Auth {
+        ROLE_ADMIN, ROLE_USER
     }
 
     private String userId;
@@ -17,7 +18,8 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime latestLoginAt;
 
-    public User (String userId, String userName, String userPassword, String userBirth, Auth userAuth, int userPoint, LocalDateTime createdAt, LocalDateTime latestLoginAt ){
+    public User(String userId, String userName, String userPassword, String userBirth, Auth userAuth, int userPoint,
+                LocalDateTime createdAt, LocalDateTime latestLoginAt) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -25,7 +27,7 @@ public class User {
         this.userAuth = userAuth;
         this.userPoint = userPoint;
         this.createdAt = createdAt;
-        this.latestLoginAt=latestLoginAt;
+        this.latestLoginAt = latestLoginAt;
     }
 
     public String getUserId() {
@@ -82,8 +84,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return userPoint == user.userPoint &&
                 Objects.equals(userId, user.userId) &&

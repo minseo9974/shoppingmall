@@ -1,6 +1,7 @@
 package com.nhnacademy.shoppingmall.user.service;
 
 import com.nhnacademy.shoppingmall.user.domain.User;
+import java.util.List;
 
 public interface UserService {
 
@@ -13,5 +14,13 @@ public interface UserService {
     void deleteUser(String userId);
 
     User doLogin(String userId, String userPassword);
+
+    int getUserCount();
+
+    int getAdminCount();
+
+    List<User> getAdminPageList(int offset,int pageSize);
+    List<User> getUserPageList(int offset,int pageSize);
+
 
 }

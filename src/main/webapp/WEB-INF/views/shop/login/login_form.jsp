@@ -1,5 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" session="false" %>
 
+<script>
+let msg = "${msg}";
+if(msg=="LOGIN_ERR")  alert("로그인을 먼저 해주십시오!");
+</script>
+
 <div style="margin: auto; width: 400px;">
     <div class="p-2">
         <form method="post" action="/loginAction.do">
