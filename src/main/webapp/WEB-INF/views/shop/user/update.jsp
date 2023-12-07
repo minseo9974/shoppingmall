@@ -67,6 +67,6 @@
     </tr>
   </table>
   <p>
-    <button type="submit">수정</button>
+    <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">수정</button>
   </p>
 </form>

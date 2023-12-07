@@ -50,10 +50,10 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
     @Override
     public int save(OrderDetail orderDetail) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "insert into OrderDetails values(?,?,?,?)";
+        String sql = "insert into OrderDetails (OrderID,ProductID,Quantity,UnitCost)values(?,?,?,?)";
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, orderDetail.getOrderId());
+            psmt.setInt(1,orderDetail.getOrderId());
             psmt.setInt(2, orderDetail.getProductId());
             psmt.setInt(3, orderDetail.getQuantity());
             psmt.setBigDecimal(4, orderDetail.getUnitCost());

@@ -52,7 +52,7 @@
                             <c:if test="${auth ne 'ROLE_ADMIN'}">
                             <a class="btn btn-warning" href="/myPage.do">마이페이지</a>
                                 <c:url var="view_link" value="/cart.do" scope="request">
-                                    <c:param name="productId" value="-1"/>
+<%--                                    <c:param name="productId" value="-1"/>--%>
                                 </c:url>
                             <a class="btn btn-warning" href="${view_link}">장바구니</a>
                             </c:if>

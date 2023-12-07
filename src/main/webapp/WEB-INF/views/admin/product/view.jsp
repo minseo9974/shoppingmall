@@ -52,7 +52,7 @@
         <li>
             <form method="post" action="/admin/product/delete.do">
                 <input type="hidden" name="id" value="${product.productId}">
-                <button type="submit">삭제</button>
+                <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">삭제</button>
             </form>
         </li>
 </ul>

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebFilter(
         filterName = "loginCheckFilter",
-        urlPatterns = {"/myPage*","/order*","/pay*","/cart*"}
+        urlPatterns = {"/myPage*","/order*","/pay*","/cart*","/history*"}
 )
 @Slf4j
 public class LoginCheckFilter extends HttpFilter {

@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.shoppingCart.service;
 
+import com.nhnacademy.shoppingmall.join.domain.CartProduct;
 import com.nhnacademy.shoppingmall.shoppingCart.domain.ShoppingCart;
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ShoppingCartService {
     ShoppingCart getCart(int productId, String userId);
 
     void deleteAll(String userId);
+
+    List<CartProduct> getCPList(String userId);
 }

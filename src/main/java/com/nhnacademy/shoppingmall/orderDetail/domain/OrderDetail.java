@@ -9,6 +9,7 @@ public class OrderDetail {
     private int quantity;
     private BigDecimal unitCost;
 
+
     public OrderDetail(int orderId, int productId, int quantity, BigDecimal unitCost) {
         this.orderId = orderId;
         this.productId = productId;

@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.shoppingCart.repository;
 
+import com.nhnacademy.shoppingmall.join.domain.CartProduct;
 import com.nhnacademy.shoppingmall.shoppingCart.domain.ShoppingCart;
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +25,6 @@ public interface ShoppingCartRepository {
 
     // 장바구니 주문 완료후 삭제
     int deleteAll(String userId);
+    List<CartProduct> getCPList(String userId);
 
 }

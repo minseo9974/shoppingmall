@@ -26,7 +26,7 @@ public class adminProductController implements BaseController {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         int totalCnt = productService.getCount();
 
-        // 현재 페이지
+        // 현재 페이지지
         int currentPage = req.getParameter("page") != null ? Integer.parseInt(req.getParameter("page")) : 1;
 
         // SearchCondition을 현재 페이지와 함께 생성

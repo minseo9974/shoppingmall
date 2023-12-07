@@ -13,8 +13,8 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository = orderRepository;
     }
     @Override
-    public Order getOrder(int orderId, String userId) {
-        Optional<Order> orderOptional = orderRepository.findById(orderId, userId);
+    public Order getOrder( String userId) {
+        Optional<Order> orderOptional = orderRepository.findById(userId);
 
         return orderOptional.orElse(null);
     }
@@ -44,12 +44,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int getCount() {
-        return orderRepository.count();
+    public int getCount(String userId) {
+        return orderRepository.userCount(userId);
     }
 
     @Override
-    public List<Order> getCurrentPageList(int offset, int pageSize) {
-        return orderRepository.getCurrentPageList(offset, pageSize);
+    public List<Order> getCurrentPageList(int offset, int pageSize,String userId) {
+        return orderRepository.getCurrentPageList(offset, pageSize,userId);
     }
 }

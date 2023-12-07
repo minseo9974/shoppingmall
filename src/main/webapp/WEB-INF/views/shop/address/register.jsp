@@ -43,7 +43,7 @@
         </tr>
     </table>
     <p>
-        <button type="submit">
+        <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">
             <c:choose>
                 <c:when test="${empty address}">
                     등록

@@ -4,13 +4,13 @@ import com.nhnacademy.shoppingmall.order.domain.Order;
 import java.util.List;
 
 public interface OrderService {
-    Order getOrder(int orderId, String userId);
+    Order getOrder( String userId);
 
     void saveOrder(Order order);
 
     void deleteOrder(int orderId, String userId);
 
-    int getCount();
+    int getCount(String userId);
 
-    List<Order> getCurrentPageList(int offset, int pageSize);
+    List<Order> getCurrentPageList(int offset, int pageSize,String userId);
 }

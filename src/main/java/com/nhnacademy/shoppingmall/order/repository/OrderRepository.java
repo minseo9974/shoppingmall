@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface OrderRepository {
     // 주문 명세서를 가져오기 위함
-    Optional<Order> findById(int orderId, String userId);
+    Optional<Order> findById( String userId);
 
     int save(Order order);
 
@@ -14,7 +14,7 @@ public interface OrderRepository {
 
     int countById(int orderId, String userId);
 
-    int count();
+    int userCount(String userId);
 
-    List<Order> getCurrentPageList(int offset, int pageSize);
+    List<Order> getCurrentPageList(int offset, int pageSize,String userId);
 }

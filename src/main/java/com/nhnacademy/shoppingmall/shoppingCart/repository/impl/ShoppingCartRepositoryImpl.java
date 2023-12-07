@@ -1,6 +1,7 @@
 package com.nhnacademy.shoppingmall.shoppingCart.repository.impl;
 
 import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLocal;
+import com.nhnacademy.shoppingmall.join.domain.CartProduct;
 import com.nhnacademy.shoppingmall.shoppingCart.domain.ShoppingCart;
 import com.nhnacademy.shoppingmall.shoppingCart.repository.ShoppingCartRepository;
 import java.sql.Connection;
@@ -190,6 +191,48 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<CartProduct> getCPList(String userId) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = "select u.user_id, p.ProductID, p.ModelName,c.Quantity, p.UnitCost " +
+                "from ShoppingCart c " +
+                "JOIN users u ON u.user_id = c.UserID " +
+                "JOIN Products p ON p.ProductID = c.ProductID " +
+                "WHERE u.user_id = ?";
+
+        ResultSet rs = null;
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            psmt.setString(1, userId);
+            rs = psmt.executeQuery();
+            List<CartProduct> cartList = new ArrayList<>();
+
+            while (rs.next()) {
+                cartList.add(
+                        new CartProduct(
+                                rs.getString("u.user_id"),
+                                rs.getInt("p.ProductID"),
+                                rs.getString("p.ModelName"),
+                                rs.getInt("c.Quantity"),
+                                rs.getInt("p.UnitCost")
+
+                        )
+                );
+            }
+
+            return cartList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (Objects.nonNull(rs)) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

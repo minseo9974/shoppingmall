@@ -33,6 +33,10 @@ public class ApplicationListener implements ServletContextListener {
             // 어드민, 유저 생성
         try{
             userService.saveUser(admin);
+        } catch (Exception e) {
+            log.debug("already user exist");
+        }
+        try{
             userService.saveUser(user);
         } catch (Exception e) {
             log.debug("already user exist");

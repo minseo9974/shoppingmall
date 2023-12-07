@@ -9,5 +9,7 @@ public interface PointHistoryRepository {
     int save(PointHistory pointHistory);
 
     int delete(String userId);
+    int userCount(String userId);
 
+    List<PointHistory> getCurrentPageList(int offset, int pageSize,String userId);
 }

@@ -26,6 +26,6 @@ public class CartDeleteController implements BaseController {
 
         shoppingCartService.deleteCart(userId, productId);
 
-        return "redirect:/cart.do?productId=-1";
+        return "redirect:/cart.do";
     }
 }

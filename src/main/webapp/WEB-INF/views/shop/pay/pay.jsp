@@ -8,28 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script>
-    let msg = "${msg}";
-    if(msg=="PAY_ERR")  alert("결제 잔액이 부족합니다!");
-</script>
-<!-- 주문 정보를 보여주는 섹션 -->
-<section>
-    <h3>주문 정보</h3>
-    <ul>
-        <li><strong>내 보유 포인트:</strong> ${point}</li>
-        <li><strong>총 결제 금액:</strong> ${totalCost}</li>
-    </ul>
-</section>
 
-<!-- 배송지 목록을 선택하는 섹션 -->
-<section>
-    <h3>배송지 선택</h3>
-    <select id="deliveryAddress" name="deliveryAddress">
-        <c:forEach var="address" items="${addressList}">
-            <option value="${address.toString()}">${address.toString()}</option>
-        </c:forEach>
-    </select>
-</section>
 
 <h2>결제 품목</h2>
 <table class="table table-striped">
@@ -55,22 +34,32 @@
     </tbody>
 </table>
 
+
+<!-- 주문 정보를 보여주는 섹션 -->
+<section>
+    <h3>주문 정보</h3>
+    <ul>
+        <li><strong>내 보유 포인트:</strong> ${point}</li>
+        <li><strong>총 결제 금액:</strong> ${totalCost}</li>
+    </ul>
+</section>
+<form action="/pay.do" method="post">
+    <!-- 배송지 목록을 선택하는 섹션 -->
+    <section>
+        <h3>배송지 선택</h3>
+        <select id="deliveryAddress" name="deliveryAddress" >
+            <c:forEach var="address" items="${addressList}">
+                <option value="${address.toString()}">${address.toString()}</option>
+            </c:forEach>
+        </select>
+    </section>
+
     <!-- 결제 버튼 -->
-<div class="d-flex justify-content-center">
-    <form action="/pay.do" method="post">
+    <div class="d-flex justify-content-center">
+
         <input type="hidden" name="totalCost" value="${totalCost}">
         <input type="hidden" name="selectedAddressId" id="selectedAddressId">
-        <button type="submit">결제</button>
-    </form>
-</div>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">결제</button>
 
-
-<!-- JavaScript를 사용하여 배송지 선택 시 selectedAddressId 업데이트 -->
-<script>
-    const deliveryAddressSelect = document.getElementById("deliveryAddress");
-    const selectedAddressIdInput = document.getElementById("selectedAddressId");
-
-    deliveryAddressSelect.addEventListener("change", function () {
-        selectedAddressIdInput.value = this.value;
-    });
-</script>
+    </div>
+</form>

@@ -23,4 +23,5 @@ public interface ProductRepository {
 
     List<Product> getCurrentpageList(int offSet, int pageSize);
     List<Product> getSearchpageList(int offSet, int pageSize,String keyword);
+
 }

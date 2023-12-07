@@ -25,4 +25,14 @@ public class PointHistoryServiceImpl implements PointHistoryService {
     public void delete(String userId) {
         pointHistoryRepository.delete(userId);
     }
+
+    @Override
+    public int getCount(String userId) {
+        return pointHistoryRepository.userCount(userId);
+    }
+
+    @Override
+    public List<PointHistory> getCurrentPageList(int offset, int pageSize,String userId) {
+        return pointHistoryRepository.getCurrentPageList(offset, pageSize,userId);
+    }
 }

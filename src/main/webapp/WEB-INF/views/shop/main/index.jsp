@@ -12,8 +12,6 @@
         window.location.href = cartLink;
     }
 
-    let msg = "${msg}";
-    if(msg=="ADD_ERR")  alert("장바구니에 존재하는 상품입니다!");
 </script>
 
 <!-- 제품 품목 -->

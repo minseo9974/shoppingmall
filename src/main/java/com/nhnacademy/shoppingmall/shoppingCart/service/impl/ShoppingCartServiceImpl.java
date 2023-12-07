@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.shoppingCart.service.impl;
 
+import com.nhnacademy.shoppingmall.join.domain.CartProduct;
 import com.nhnacademy.shoppingmall.shoppingCart.domain.ShoppingCart;
 import com.nhnacademy.shoppingmall.shoppingCart.repository.ShoppingCartRepository;
 import com.nhnacademy.shoppingmall.shoppingCart.service.ShoppingCartService;
@@ -68,5 +69,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (result < 1) {
             throw new RuntimeException("can not delete cart");
         }
+    }
+
+    @Override
+    public List<CartProduct> getCPList(String userId) {
+        return shoppingCartRepository.getCPList(userId);
     }
 }

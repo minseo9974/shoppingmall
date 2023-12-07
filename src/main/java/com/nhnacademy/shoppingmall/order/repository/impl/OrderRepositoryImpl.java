@@ -16,14 +16,13 @@ import java.util.Optional;
 
 public class OrderRepositoryImpl implements OrderRepository {
     @Override
-    public Optional<Order> findById(int orderId, String userId) {
+    public Optional<Order> findById(String userId) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "select OrderID,UserID,OrderDate,ShipDate,Address from Orders where OrderID = ? and UserID";
+        String sql = "select OrderID,UserID,OrderDate,ShipDate,Address from Orders where UserID = ? order by OrderDate DESC LIMIT 1";
 
         ResultSet rs = null;
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, orderId);
-            psmt.setString(2, userId);
+            psmt.setString(1, userId);
             rs = psmt.executeQuery();
             if (rs.next()) {
                 return Optional.of(
@@ -114,12 +113,13 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public int count() {
+    public int userCount(String userId) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "select count(*) from Orders";
+        String sql = "select count(*) from Orders where UserID = ?";
 
         ResultSet rs = null;
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            psmt.setString(1,userId);
             rs = psmt.executeQuery();
             rs.next();
             int result = rs.getInt(1);
@@ -130,15 +130,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> getCurrentPageList(int offset, int pageSize) {
+    public List<Order> getCurrentPageList(int offset, int pageSize,String userId) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "select * from Orders order by OrderID asc limit ?,?";
+        String sql = "select * from Orders where UserID = ? order by OrderID asc limit ?,?";
 
         ResultSet rs = null;
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, offset);
-            psmt.setInt(2, pageSize);
+            psmt.setString(1,userId);
+            psmt.setInt(2, offset);
+            psmt.setInt(3, pageSize);
             rs = psmt.executeQuery();
             List<Order> orderList = new ArrayList<>();
 
@@ -154,10 +155,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                 );
 
             }
-            long total = 0;
-            if (!orderList.isEmpty()) {
-                total = count();
-            }
+
             return orderList;
         } catch (SQLException e) {
             throw new RuntimeException(e);

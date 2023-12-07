@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 public class CartUpdatePostController implements BaseController {
     private final ShoppingCartService shoppingCartService =
             new ShoppingCartServiceImpl(new ShoppingCartRepositoryImpl());
-    private final ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -34,17 +33,6 @@ public class CartUpdatePostController implements BaseController {
 
         shoppingCartService.updateCart(updateCart);
 
-        List<ShoppingCart> cartList = shoppingCartService.getListById(userId);
-        req.setAttribute("list",cartList);
-
-        List<Product> productList = new ArrayList<>();
-        for (ShoppingCart carts : cartList) {
-            productList.add(productService.getProduct(carts.getProductId()));
-        }
-
-        req.setAttribute("nameList", productList);
-
-
-        return "shop/cart/cart";
+        return "redirect:/cart.do";
     }
 }
