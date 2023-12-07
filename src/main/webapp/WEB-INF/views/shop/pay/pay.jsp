@@ -8,7 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<script>
+    let msg = "${msg}";
+    if(msg=="PAY_ERR")  alert("결제 잔액이 부족합니다!");
+</script>
 <!-- 주문 정보를 보여주는 섹션 -->
 <section>
     <h3>주문 정보</h3>
@@ -23,7 +26,7 @@
     <h3>배송지 선택</h3>
     <select id="deliveryAddress" name="deliveryAddress">
         <c:forEach var="address" items="${addressList}">
-            <option value="${address.addressId}">${address.toString()}</option>
+            <option value="${address.toString()}">${address.toString()}</option>
         </c:forEach>
     </select>
 </section>
@@ -54,7 +57,7 @@
 
     <!-- 결제 버튼 -->
 <div class="d-flex justify-content-center">
-    <form action="/pqy.do" method="post">
+    <form action="/pay.do" method="post">
         <input type="hidden" name="totalCost" value="${totalCost}">
         <input type="hidden" name="selectedAddressId" id="selectedAddressId">
         <button type="submit">결제</button>

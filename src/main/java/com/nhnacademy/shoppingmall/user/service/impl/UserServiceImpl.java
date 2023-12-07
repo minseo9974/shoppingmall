@@ -60,6 +60,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUserPoint(String userId, int updatedPoint) {
+        int count = userRepository.countByUserId(userId);
+        if (count < 1) {
+            throw new UserNotFoundException(userId);
+        }
+
+        int result = userRepository.updateUserPoint(userId, updatedPoint);
+
+        if (result < 1) {
+            throw new RuntimeException("can not updateUser");
+        }
+    }
+
+    @Override
     public void deleteUser(String userId) {
         //todo#4-4 회원삭제
         //회원이 존재하지 않는다면

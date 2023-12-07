@@ -37,7 +37,7 @@ public class CartController implements BaseController {
             } catch (Exception e) {
                 req.setAttribute("msg","ADD_ERR");
                 log.error("이미 존재하는 상품");
-                return "shop/main/index";
+                return "/index.do";
             }
         }
         // 장바구니에 상품을 띄워줄 카트 리스트

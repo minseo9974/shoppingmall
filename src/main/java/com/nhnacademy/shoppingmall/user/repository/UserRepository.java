@@ -13,8 +13,8 @@ public interface UserRepository {
     int deleteByUserId(String userId);
     int update(User user);
     int updateLatestLoginAtByUserId(String userId, LocalDateTime latestLoginAt);
+    int updateUserPoint(String userId, int updatedPoint);
     int countByUserId(String userId);
-
     int userCount();
     int adminCount();
 
