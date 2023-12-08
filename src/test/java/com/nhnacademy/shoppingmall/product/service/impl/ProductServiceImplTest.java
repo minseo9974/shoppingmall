@@ -3,14 +3,19 @@ package com.nhnacademy.shoppingmall.product.service.impl;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.nhnacademy.shoppingmall.product.domain.Product;
+import com.nhnacademy.shoppingmall.product.exception.ProductAlreadyExistsException;
 import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -46,26 +51,52 @@ class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("save product - already exist product")
+    void saveProduct_exist() {
+        Mockito.when(productRepository.countByProductId(anyInt())).thenReturn(1);
+        Throwable throwable = Assertions.assertThrows(ProductAlreadyExistsException.class,
+                () -> productService.saveProduct(testProduct));
+        log.debug("error:{}", throwable.getMessage());
+    }
+
+    @Test
+    @DisplayName("update product")
     void updateProduct() {
+        Mockito.when(productRepository.countByProductId(anyInt())).thenReturn(1);
+        Mockito.when(productRepository.update(testProduct)).thenReturn(1);
+
+        productService.updateProduct(testProduct);
+
+        Mockito.verify(productRepository, Mockito.times(1)).update(any());
+        Mockito.verify(productRepository, Mockito.times(1)).countByProductId(anyInt());
     }
 
     @Test
+    @DisplayName("delete product")
     void deleteProduct() {
+        Mockito.when(productRepository.deleteByProductId(anyInt())).thenReturn(1);
+        Mockito.when(productRepository.countByProductId(anyInt())).thenReturn(1);
+
+        productService.deleteProduct(testProduct.getProductId());
+
+        Mockito.verify(productRepository, Mockito.times(1)).deleteByProductId(anyInt());
+        Mockito.verify(productRepository, Mockito.times(1)).countByProductId(anyInt());
     }
 
     @Test
+    @DisplayName("count product")
     void getCount() {
+        Mockito.when(productRepository.count()).thenReturn(5);
+        int result = productService.getCount();
+        Assertions.assertEquals(5, result);
     }
 
     @Test
+    @DisplayName("search count")
     void getSearchCount() {
-    }
-
-    @Test
-    void getCurrentPageList() {
-    }
-
-    @Test
-    void getSearchPageList() {
+        String keyword = "라면";
+        Mockito.when(productRepository.searchCount(keyword)).thenReturn(8);
+        int result = productService.getSearchCount(keyword);
+        Assertions.assertEquals(8, result);
     }
 }

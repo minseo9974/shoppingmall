@@ -8,8 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
-    function cart_page(cartLink) {
-        window.location.href = cartLink;
+    function view_page(viewLink) {
+        window.location.href = viewLink;
     }
 </script>
 
@@ -31,10 +31,10 @@
                     <p class="card-text">제품 가격 : ${product.unitCost}원</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <c:url var="cart_link" value="/cart.do">
+                            <c:url var="view_link" value="/cart/view.do">
                                 <c:param name="productId" value="${product.productId}"/>
                             </c:url>
-                            <button onclick="cart_page('${cart_link}')" class="btn btn-sm btn-outline-secondary">장바구니 추가
+                            <button onclick="view_page('${view_link}')" class="btn btn-sm btn-outline-secondary">보기
                             </button>
                         </div>
                         <small class="text-muted">제품 넘버:${product.modelNumber}</small>

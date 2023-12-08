@@ -20,15 +20,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void saveOrder(Order order) {
+    public int saveOrder(Order order) {
         int count = orderRepository.countById(order.getOrderId(), order.getUserId());
         if (count > 0) {
             throw new RuntimeException("Order already exist");
         }
         int result = orderRepository.save(order);
-        if (result < 1) {
-            throw new RuntimeException("can not saveOrder");
-        }
+        return result;
     }
 
     @Override

@@ -33,5 +33,4 @@ public class CharacterEncodingFilter implements Filter {
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
 }

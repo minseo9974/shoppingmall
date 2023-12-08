@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,13 +59,18 @@ public class OrderRepositoryImpl implements OrderRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "insert into Orders(UserID,OrderDate,ShipDate,Address) values(?,?,?,?)";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
             psmt.setString(1, order.getUserId());
             psmt.setTimestamp(2, Timestamp.valueOf(order.getOrderDate()));
             psmt.setTimestamp(3, Timestamp.valueOf(order.getShipDate()));
             psmt.setString(4, order.getAddress());
             int result = psmt.executeUpdate();
-            return result;
+            if (result < 1) {
+                throw new RuntimeException();
+            }
+            ResultSet tableKeys = psmt.getGeneratedKeys();
+            tableKeys.next();
+            return tableKeys.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
