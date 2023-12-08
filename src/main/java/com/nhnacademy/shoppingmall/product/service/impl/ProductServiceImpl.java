@@ -84,10 +84,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @Override
-    public List<Product> getList(int productId) {
-        return productRepository.getList(productId);
-    }
+//    @Override
+//    public List<Product> getList(int productId) {
+//        return productRepository.getList(productId);
+//    }
 
     @Override
     public List<Product> getCurrentPageList(int offSet, int pageSize) {

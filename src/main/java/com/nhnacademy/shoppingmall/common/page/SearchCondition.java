@@ -7,9 +7,6 @@ public class SearchCondition {
     // 검색시 카테고리 분류 옵션
     private Integer option = 0;
 
-    public SearchCondition() {
-
-    }
 
     public SearchCondition(Integer page, Integer pageSize, String keyword, Integer option) {
         this.page = page;

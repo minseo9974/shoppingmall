@@ -1,10 +1,17 @@
 package com.nhnacademy.shoppingmall.user.service.impl;
 
+import com.nhnacademy.shoppingmall.pointHistory.domain.PointHistory;
+import com.nhnacademy.shoppingmall.pointHistory.repository.PointHistoryRepository;
+import com.nhnacademy.shoppingmall.pointHistory.repository.impl.PointHistoryRepositoryImpl;
+import com.nhnacademy.shoppingmall.pointHistory.service.PointHistoryService;
+import com.nhnacademy.shoppingmall.pointHistory.service.impl.PointHistoryServiceImpl;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.exception.UserAlreadyExistsException;
 import com.nhnacademy.shoppingmall.user.exception.UserNotFoundException;
 import com.nhnacademy.shoppingmall.user.repository.UserRepository;
 import com.nhnacademy.shoppingmall.user.service.UserService;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    private final PointHistoryService pointHistoryService =
+            new PointHistoryServiceImpl(new PointHistoryRepositoryImpl());
     @Override
     public User getUser(String userId) {
         //todo#4-1 회원조회
@@ -97,6 +105,7 @@ public class UserServiceImpl implements UserService {
         if (!existUser.isPresent()) {
             throw new UserNotFoundException(userId);
         }
+
         LocalDateTime nowDateTime = LocalDateTime.now();
         int result = userRepository.updateLatestLoginAtByUserId(userId,nowDateTime);
         if (result < 1) {
@@ -104,6 +113,36 @@ public class UserServiceImpl implements UserService {
         }
 
         return existUser.orElse(null);
+    }
+
+    @Override
+    public void getDayPoint(String userId, String userPassword) {
+        Optional<User> existUser = userRepository.findByUserIdAndUserPassword(userId, userPassword);
+        if (!existUser.isPresent()) {
+            throw new UserNotFoundException(userId);
+        }
+        User user = existUser.get();
+        // 오늘 첫 로그인이거나 첫 가입시 데이포인트를 지급
+        LocalDateTime lastLogin = user.getLatestLoginAt();
+        LocalDateTime now = LocalDateTime.now();
+        // 오늘 날짜
+        LocalDate today = now.toLocalDate();
+
+        final int POINT = 10_000;
+
+        // 마지막 로그인 날짜가 오늘이 아니라면
+        if (lastLogin == null || lastLogin.toLocalDate().isBefore(today)) {
+            // 유저에게 저장할 포인트
+            int beforePoint = user.getUserPoint();
+            int afterPoint = Math.addExact(beforePoint, POINT);
+            // 유저 포인트 업데이트
+            userRepository.updateUserPoint(userId, afterPoint);
+            // 포인트 내역 업데이트
+            PointHistory pointHistory = new PointHistory(userId, "적립", new BigDecimal(POINT), now);
+            pointHistoryService.save(pointHistory);
+        }
+
+
     }
 
     @Override

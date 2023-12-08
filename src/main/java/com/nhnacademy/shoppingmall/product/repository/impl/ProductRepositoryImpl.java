@@ -178,41 +178,41 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
     }
 
-    @Override
-    public List<Product> getList(int productId) {
-        Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "select * from Products where ProductID = ?";
-        log.debug("getList :{}", sql);
-
-        ResultSet rs = null;
-
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, productId);
-            rs = psmt.executeQuery();
-            List<Product> productList = new ArrayList<>();
-
-            while (rs.next()) {
-                productList.add(
-                        new Product(
-                                rs.getInt("ProductID"),
-                                rs.getString("ModelName"),
-                                rs.getBigDecimal("UnitCost")
-                        )
-                );
-            }
-            return productList;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                if (Objects.nonNull(rs)) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
+//    @Override
+//    public List<Product> getList(int productId) {
+//        Connection connection = DbConnectionThreadLocal.getConnection();
+//        String sql = "select * from Products where ProductID = ?";
+//        log.debug("getList :{}", sql);
+//
+//        ResultSet rs = null;
+//
+//        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+//            psmt.setInt(1, productId);
+//            rs = psmt.executeQuery();
+//            List<Product> productList = new ArrayList<>();
+//
+//            while (rs.next()) {
+//                productList.add(
+//                        new Product(
+//                                rs.getInt("ProductID"),
+//                                rs.getString("ModelName"),
+//                                rs.getBigDecimal("UnitCost")
+//                        )
+//                );
+//            }
+//            return productList;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            try {
+//                if (Objects.nonNull(rs)) {
+//                    rs.close();
+//                }
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
 
 
     @Override

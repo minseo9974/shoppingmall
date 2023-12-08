@@ -19,7 +19,7 @@ public interface ProductRepository {
     int count();
     int searchCount(String keyword);
 
-    List<Product> getList(int productId);
+//    List<Product> getList(int productId);
 
     List<Product> getCurrentpageList(int offSet, int pageSize);
     List<Product> getSearchpageList(int offSet, int pageSize,String keyword);

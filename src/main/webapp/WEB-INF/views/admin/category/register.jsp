@@ -13,23 +13,18 @@
 <c:if test="${not empty category}">
     <c:set var="action" value="/admin/category/update.do"/>
 </c:if>
-<form method="post" action="${action}">
-    <table>
-        <tr>
-            <td>ID</td>
-            <td>
-                <input type="text" name="id" value="${category.categoryId}" ${not empty category ? 'readonly' : ''}required><br/>
-            </td>
-        </tr>
-        <tr>
-            <td>이름</td>
-            <td>
-                <input type="text" name="name" value="${not empty category ? category.categoryName : ''}" required><br/>
-            </td>
-        </tr>
-    </table>
-    <p>
-        <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">
+
+<div class="container mt-5">
+    <form method="post" action="${action}">
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" value="${category.categoryId}" ${not empty category ? 'readonly' : ''} required>
+        </div>
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" name="name" value="${not empty category ? category.categoryName : ''}" required>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block mt-3" type="submit">
             <c:choose>
                 <c:when test="${empty category}">
                     등록
@@ -39,5 +34,5 @@
                 </c:otherwise>
             </c:choose>
         </button>
-    </p>
-</form>
+    </form>
+</div>

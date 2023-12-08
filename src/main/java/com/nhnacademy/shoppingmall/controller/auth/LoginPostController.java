@@ -7,6 +7,7 @@ import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
 import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ public class LoginPostController implements BaseController {
         String userPassword = req.getParameter("user_password");
 
         try {
+            userService.getDayPoint(userId, userPassword);
             User user = userService.doLogin(userId, userPassword);
             if (Objects.nonNull(user)) {
 
@@ -41,6 +43,7 @@ public class LoginPostController implements BaseController {
 
                 // session 60분 설정
                 session.setMaxInactiveInterval(60 * 60);
+
 
                 return "redirect:/index.do";
             }

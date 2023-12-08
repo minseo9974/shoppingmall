@@ -46,7 +46,7 @@
                 <td>
                     <form method="post" action="/cart.do" class="d-flex">
                         <input type="hidden" name="productId" value="${item.productId}">
-                        <input type="number" class="form-control me-2" name="quantity" style="width: 70px;" value="${item.quantity}">
+                        <input type="number" class="form-control me-2" name="quantity" style="width: 70px;" value="${item.quantity}" min="1">
                         <button class="btn btn-outline-primary" type="submit">수량 수정</button>
                     </form>
                 </td>
@@ -60,6 +60,10 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="mt-3">
+        <h5>총 가격: ${totalCost}</h5>
+        <h5>잔고: ${point}</h5>
+    </div>
 
     <c:if test="${not empty list}">
         <div class="container">

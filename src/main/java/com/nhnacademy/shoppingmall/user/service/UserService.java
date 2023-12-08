@@ -17,6 +17,8 @@ public interface UserService {
 
     User doLogin(String userId, String userPassword);
 
+    void getDayPoint(String userId, String userPassword);
+
     int getUserCount();
 
     int getAdminCount();

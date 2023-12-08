@@ -18,7 +18,7 @@ public interface ProductService {
 
     int getSearchCount(String keyword);
 
-    List<Product> getList(int productId);
+//    List<Product> getList(int productId);
 
     List<Product> getCurrentPageList(int offSet, int pageSize);
     List<Product> getSearchPageList(int offSet, int pageSize,String keyword);

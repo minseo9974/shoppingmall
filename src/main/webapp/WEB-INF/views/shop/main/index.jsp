@@ -11,7 +11,6 @@
     function cart_page(cartLink) {
         window.location.href = cartLink;
     }
-
 </script>
 
 <!-- 제품 품목 -->

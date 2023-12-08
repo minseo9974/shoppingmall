@@ -1,19 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
   User: minseo
-  Date: 2023/12/01
-  Time: 3:48 PM
+  Date: 2023/12/08
+  Time: 4:46 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container mt-5">
-    <h3>카테고리 조회</h3>
+    <h3>상품 상세 페이지</h3>
     <table class="table">
         <tbody>
         <tr>
-            <th scope="row">카테고리 아이디</th>
-            <td>${category.categoryId}</td>
+            <th scope="row">상품 이미지</th>
+            <td> <image href="${product.productImage}" width="100%" height="100%"/></td>
         </tr>
         <tr>
             <th scope="row">카테고리 이름</th>
