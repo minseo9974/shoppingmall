@@ -27,39 +27,6 @@
     </table>
 </c:if>
 <c:if test="${not empty list}">
-<%--    <table class="table table-striped">--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th scope="col">상품명</th>--%>
-<%--            <th scope="col">수량</th>--%>
-<%--            <th scope="col">가격</th>--%>
-<%--            <th scope="col">수량 수정</th>--%>
-<%--            <th scope="col">삭제</th>--%>
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--        <tbody>--%>
-<%--        <c:forEach var="item" items="${list}">--%>
-<%--            <tr>--%>
-<%--                <td>${item.productName}</td>--%>
-<%--                <td>${item.quantity}</td>--%>
-<%--                <td>${item.unitCost*item.quantity}</td>--%>
-<%--                <td>--%>
-<%--                    <form method="post" action="/cart.do">--%>
-<%--                        <input type="number" class="form-control" name="quantity" style="width: 70px;"value="${item.quantity}">--%>
-<%--                        <input type="hidden" class="form-control" name="productId" value="${item.productId}">--%>
-<%--                        <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">수량 수정</button>--%>
-<%--                    </form>--%>
-<%--                </td>--%>
-<%--                <td>--%>
-<%--                    <form method="post" action="/cart/delete.do">--%>
-<%--                        <input type="hidden" name="id" value="${item.productId}">--%>
-<%--                        <button class="w-100 btn btn-lg btn-primary mt-3"  type="submit">삭제</button>--%>
-<%--                    </form>--%>
-<%--                </td>--%>
-<%--            </tr>--%>
-<%--        </c:forEach>--%>
-<%--        </tbody>--%>
-<%--    </table>--%>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -95,12 +62,6 @@
     </table>
 
     <c:if test="${not empty list}">
-<%--        <div class="d-flex justify-content-center">--%>
-<%--                &lt;%&ndash;todo 장바구니 주문버튼 만들기&ndash;%&gt;--%>
-<%--            <c:url var="pay_link" value="/pay.do" scope="request">--%>
-<%--            </c:url>--%>
-<%--            <a class="nav-link" href="${pay_link}">주문</a>--%>
-<%--        </div>--%>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-6">

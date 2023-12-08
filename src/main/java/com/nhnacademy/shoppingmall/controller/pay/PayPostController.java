@@ -2,27 +2,15 @@ package com.nhnacademy.shoppingmall.controller.pay;
 
 import com.nhnacademy.shoppingmall.common.mvc.annotation.RequestMapping;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
-import com.nhnacademy.shoppingmall.join.domain.CartProduct;
 import com.nhnacademy.shoppingmall.order.domain.Order;
 import com.nhnacademy.shoppingmall.order.repository.impl.OrderRepositoryImpl;
 import com.nhnacademy.shoppingmall.order.service.OrderService;
 import com.nhnacademy.shoppingmall.order.service.impl.OrderServiceImpl;
-import com.nhnacademy.shoppingmall.orderDetail.domain.OrderDetail;
-import com.nhnacademy.shoppingmall.orderDetail.repository.impl.OrderDetailRepositoryImpl;
-import com.nhnacademy.shoppingmall.orderDetail.service.OrderDetailService;
-import com.nhnacademy.shoppingmall.orderDetail.service.impl.OrderDetailServiceImpl;
 import com.nhnacademy.shoppingmall.pointHistory.domain.PointHistory;
 import com.nhnacademy.shoppingmall.pointHistory.repository.impl.PointHistoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.pointHistory.service.PointHistoryService;
 import com.nhnacademy.shoppingmall.pointHistory.service.impl.PointHistoryServiceImpl;
-import com.nhnacademy.shoppingmall.product.repository.impl.ProductRepositoryImpl;
-import com.nhnacademy.shoppingmall.product.service.ProductService;
-import com.nhnacademy.shoppingmall.product.service.impl.ProductServiceImpl;
-import com.nhnacademy.shoppingmall.shoppingCart.repository.impl.ShoppingCartRepositoryImpl;
-import com.nhnacademy.shoppingmall.shoppingCart.service.ShoppingCartService;
-import com.nhnacademy.shoppingmall.shoppingCart.service.impl.ShoppingCartServiceImpl;
 import com.nhnacademy.shoppingmall.thread.channel.RequestChannel;
-import com.nhnacademy.shoppingmall.thread.request.ChannelRequest;
 import com.nhnacademy.shoppingmall.thread.request.impl.PointChannelRequest;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
@@ -30,7 +18,6 @@ import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +36,7 @@ public class PayPostController implements BaseController {
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
     private final PointHistoryService pointHistoryService =
             new PointHistoryServiceImpl(new PointHistoryRepositoryImpl());
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(true);
@@ -90,14 +78,20 @@ public class PayPostController implements BaseController {
         User newUser = userService.getUser(id);
         session.setAttribute("loginUser", newUser);
 
+        // 포인트 히스토리 내역 추가
+        PointHistory pointHistory = new PointHistory(id, "출금", totalCost, LocalDateTime.now());
+        pointHistoryService.save(pointHistory);
+
         // 포인트 적립을 위한 새로운 트랜잭션 실행
         ServletContext ctx = req.getServletContext();
         RequestChannel requestChannel = (RequestChannel) ctx.getAttribute("requestChannel");
-        requestChannel.addRequest(new PointChannelRequest());
 
-        // 포인트 히스토리 내역 추가
-        PointHistory pointHistory = new PointHistory(id,"출금",totalCost,LocalDateTime.now());
-        pointHistoryService.save(pointHistory);
+        try {
+            requestChannel.addRequest(new PointChannelRequest(payCost,resultPoint, id));
+        } catch (InterruptedException e) {
+            log.error("적립 실패:{}", e);
+            throw new RuntimeException("적립에 실패 하였습니다.");
+        }
 
         return "redirect:/order.do";
 

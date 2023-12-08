@@ -8,6 +8,10 @@ import com.nhnacademy.shoppingmall.order.domain.Order;
 import com.nhnacademy.shoppingmall.order.repository.impl.OrderRepositoryImpl;
 import com.nhnacademy.shoppingmall.order.service.OrderService;
 import com.nhnacademy.shoppingmall.order.service.impl.OrderServiceImpl;
+import com.nhnacademy.shoppingmall.user.domain.User;
+import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
+import com.nhnacademy.shoppingmall.user.service.UserService;
+import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +23,14 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(method = RequestMapping.Method.GET, value = "/order/view.do")
 public class OrderViewController implements BaseController {
     private final OrderService orderService = new OrderServiceImpl(new OrderRepositoryImpl());
+    private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(true);
         String id = (String) session.getAttribute("id");
+
+        User newUser = userService.getUser(id);
+        session.setAttribute("loginUser", newUser);
 
         // 주문 건수를 보여주기 위한 페이리스트 전송
         int totalCnt = orderService.getCount(id);

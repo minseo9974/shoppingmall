@@ -41,13 +41,17 @@
     <ul>
         <li><strong>내 보유 포인트:</strong> ${point}</li>
         <li><strong>총 결제 금액:</strong> ${totalCost}</li>
+        <c:if test="${point >= totalCost}">
+            <li><strong>결제후 예상 금액:</strong> ${point - totalCost}</li>
+        </c:if>
     </ul>
 </section>
 <form action="/pay.do" method="post">
     <!-- 배송지 목록을 선택하는 섹션 -->
     <section>
         <h3>배송지 선택</h3>
-        <select id="deliveryAddress" name="deliveryAddress" >
+        <select id="deliveryAddress" name="deliveryAddress" required>
+            <option value="" disabled selected hidden>배송지 선택</option>
             <c:forEach var="address" items="${addressList}">
                 <option value="${address.toString()}">${address.toString()}</option>
             </c:forEach>
