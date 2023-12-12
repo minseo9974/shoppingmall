@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <h3>장바구니</h3>
 <c:if test="${empty list}">
     <table class="table table-striped">
@@ -46,7 +45,8 @@
                 <td>
                     <form method="post" action="/cart.do" class="d-flex">
                         <input type="hidden" name="productId" value="${item.productId}">
-                        <input type="number" class="form-control me-2" name="quantity" style="width: 70px;" value="${item.quantity}" min="1">
+                        <input type="number" class="form-control me-2" name="quantity" style="width: 70px;"
+                               value="${item.quantity}" min="1">
                         <button class="btn btn-outline-primary" type="submit">수량 수정</button>
                     </form>
                 </td>

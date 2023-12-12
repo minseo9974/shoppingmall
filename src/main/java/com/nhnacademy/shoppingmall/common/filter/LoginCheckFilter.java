@@ -3,6 +3,7 @@ package com.nhnacademy.shoppingmall.common.filter;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import java.io.IOException;
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
@@ -28,7 +29,8 @@ public class LoginCheckFilter extends HttpFilter {
         if (session == null || session.getAttribute("id") == null || !session.getAttribute("id").equals(((User) session.getAttribute("loginUser")).getUserId())) {
             String msg = "LOGIN_ERR";
             req.setAttribute("msg", msg);
-            res.sendRedirect("/login.do");
+            RequestDispatcher rd = req.getRequestDispatcher(req.getContextPath()+"shop/login/login_form.jsp");
+            rd.forward(req, res);
             return;
         }
 

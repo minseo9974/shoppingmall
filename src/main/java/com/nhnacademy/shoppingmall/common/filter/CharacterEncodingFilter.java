@@ -29,8 +29,8 @@ public class CharacterEncodingFilter implements Filter {
             throws IOException, ServletException {
         //todo#8 UTF-8 인코딩, initParams의 encoding parameter value값을 charset 으로 지정합니다.
         servletResponse.setCharacterEncoding(this.encoding);
+        filterChain.doFilter(servletRequest, servletResponse);
         servletRequest.setCharacterEncoding(this.encoding);
 
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
