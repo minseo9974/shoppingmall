@@ -10,6 +10,7 @@ import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
 import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,14 @@ public class RegisterPostController implements BaseController {
         int point = 1_000_000;
         LocalDateTime now = LocalDateTime.now();
 
+        if (Objects.isNull(id)||Objects.isNull(name)||Objects.isNull(password)||Objects.isNull(birth)||Objects.isNull(auth)){
+            log.error("input is null");
+            return "redirect:/signup.do";
+        }
+        if (id.isEmpty() || name.isEmpty() || password.isEmpty() || birth.isEmpty() || auth.isEmpty()) {
+            log.error("input is empty");
+            return "redirect:/signup.do";
+        }
 
         try {
             // 존재하지 않는 아이디는 등록

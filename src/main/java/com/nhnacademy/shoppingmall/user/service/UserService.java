@@ -4,6 +4,7 @@ import com.nhnacademy.shoppingmall.user.domain.User;
 import java.util.List;
 
 public interface UserService {
+    boolean idCheck(String userId);
 
     User getUser(String userId);
 

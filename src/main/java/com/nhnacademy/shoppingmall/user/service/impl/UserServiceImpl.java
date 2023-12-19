@@ -1,7 +1,6 @@
 package com.nhnacademy.shoppingmall.user.service.impl;
 
 import com.nhnacademy.shoppingmall.pointHistory.domain.PointHistory;
-import com.nhnacademy.shoppingmall.pointHistory.repository.PointHistoryRepository;
 import com.nhnacademy.shoppingmall.pointHistory.repository.impl.PointHistoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.pointHistory.service.PointHistoryService;
 import com.nhnacademy.shoppingmall.pointHistory.service.impl.PointHistoryServiceImpl;
@@ -20,12 +19,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     private final PointHistoryService pointHistoryService =
             new PointHistoryServiceImpl(new PointHistoryRepositoryImpl());
+
+    @Override
+    public boolean idCheck(String userId) {
+        int result = userRepository.countByUserId(userId);
+        if (result < 1) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public User getUser(String userId) {
         //todo#4-1 회원조회
@@ -107,7 +117,7 @@ public class UserServiceImpl implements UserService {
         }
 
         LocalDateTime nowDateTime = LocalDateTime.now();
-        int result = userRepository.updateLatestLoginAtByUserId(userId,nowDateTime);
+        int result = userRepository.updateLatestLoginAtByUserId(userId, nowDateTime);
         if (result < 1) {
             throw new RuntimeException("LocalDateTime setting is Error");
         }
